@@ -2,11 +2,11 @@
 <html>
     <body>
         <h1> Spoiler Blocker</h1>
-        <h3>What it does</h3>
+        <h3>Goals</h3>
         <ul>
-            <li>To block words possibly relating to a spoiler specified by the user.</li>
+            <li>Provide a solution to people who wish to continue to browse the internet as per normal despite wanting to avoid spoilers.</li>
         </ul>
-        <h3>Features</h3>
+        <h3>Current Features</h3>
         <ul>
             <li>Blocking spoilers: search the webpage for keywords then block the words with ***</li>
             <li>Allows user to specify and add keywords</li>
