@@ -5,6 +5,9 @@
     "icons": {
         "48": "icons/48.jpg"
     },
+    "permissions": [
+        "storage"
+    ],
     "browser_action": {
         "browser_style": true,
         "default_title": "Settings",

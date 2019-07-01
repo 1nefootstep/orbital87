@@ -16,7 +16,22 @@ function deepSearch(node, arr) {
     deepSearch(node.nextSibling,arr);
   }
 }
-
-let test = ["feedback", "events", "lmao", "support", "report", "ghost", "next", "merged", "dependency", "singapore"];
+let test = ["avenger", "endgame", "captain america", "ironman", "avengers", "captainamerica", "iron man"];
 deepSearch(startPoint, test);
 // testingThis();
+// function onError(error) {
+//   console.log(error);
+// }
+
+// function onSuccess(text = "") {
+//   console.log("OK" + text);
+// }
+
+// let bannedWordsArr = browser.storage.local.get("listOfBanWords")
+//   .then(() => onSuccess(" got list of banned words"), onError);
+
+// document.addEventListener("DOMContentLoaded", function() {
+//   // deepSearch(startPoint, bannedWordsArr.arr);
+//   deepSearch(startPoint, test);
+//   alert("test");
+// });
