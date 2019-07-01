@@ -1,6 +1,5 @@
 function moveTextToList()
 {
-    // alert("works");
     let text = document.getElementById("wordsAffected");
     let words = text.value.split(',');
     for(let word of words){
@@ -10,6 +9,7 @@ function moveTextToList()
     }
     text.value = '';
 }
-function testingThis() {
-    alert("works");
-}
+document.addEventListener("DOMContentLoaded", function() {
+    let btn = document.getElementById("block");
+    btn.addEventListener('click', moveTextToList);
+});
