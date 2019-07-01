@@ -5,7 +5,7 @@ function deepSearch(node, arr) {
       for (let word of arr) {
         let text = node.textContent;
         // alert(word);
-        let regex = new RegExp(word,"i");
+        let regex = new RegExp(word,"ig");
         node.textContent = text.replace(regex, "***");;
       }
     }
@@ -17,7 +17,6 @@ function deepSearch(node, arr) {
   }
 }
 
-
-// let test = ["feedback", "events", "lmao", "support", "report", "ghost", "next", "merged", "dependency"];
-// deepSearch(startPoint, test);
-testingThis();
+let test = ["feedback", "events", "lmao", "support", "report", "ghost", "next", "merged", "dependency", "singapore"];
+deepSearch(startPoint, test);
+// testingThis();
