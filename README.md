@@ -21,7 +21,6 @@
             <li>Hiding images</li>
             <li>Creating two buckets of keywords (high priority and low priority) and hide the censored words with different effect depending on the priority (red for high/ yellow for low). This is to deal with false positives.</li>
             <li></li>
-            
         </ul>
     </body>
 </html>
