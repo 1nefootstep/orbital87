@@ -5,6 +5,11 @@
     "icons": {
         "48": "icons/48.jpg"
     },
+    "browser_action": {
+        "browser_style": true,
+        "default_title": "Settings",
+        "default_popup": "./src/test.html"
+      },
     "description": "To filter out nasty words",
     "content_scripts": [
         {
