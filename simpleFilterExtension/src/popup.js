@@ -64,10 +64,34 @@ function initialiseList() {
     }, onError);
 }
 
+function initialiseButtons() {
+    let switchPromise = browser.storage.local.get("onSwitch");
+    switchPromise.then((item) => {
+        if (typeof(item.onSwitch) === "undefined") {
+            console.log("set true");
+            browser.storage.local.set({onSwitch: true});
+        } else if (item.onSwitch === false) {
+            let swHTML = document.getElementById("onSwitch");
+            swHTML.innerHTML = "<input type='checkbox'><span class='slider round'></span>";
+        }
+    });
+}
+
+function toggleSwitch() {
+    let togglePromise = browser.storage.local.get("onSwitch");
+    togglePromise.then((obj) => {
+        console.log(obj.onSwitch);
+        browser.storage.local.set({onSwitch: !obj.onSwitch});
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function() {
     initialiseList();
+    initialiseButtons();
     let blockBtn = document.getElementById("block");
     let clearBtn = document.getElementById("clear");
+    let onSwitch = document.getElementById("onSwitch");
     blockBtn.addEventListener('click', moveTextToList);
     clearBtn.addEventListener('click', clearBannedWords);
+    onSwitch.addEventListener('click', toggleSwitch);
 });

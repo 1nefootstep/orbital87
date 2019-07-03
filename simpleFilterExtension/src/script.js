@@ -18,11 +18,26 @@ function deepSearch(node, arr) {
 }
 
 let promiseArr = browser.storage.local.get('bannedWordsArr');
-promiseArr.then(function(item) {
-  if (item.bannedWordsArr.length > 0) {
-    deepSearch(startPoint, item.bannedWordsArr);
+let promiseOnSwitch = browser.storage.local.get('onSwitch');
+promiseOnSwitch.then(function(item) {
+  // if onSwitch has yet to be defined, we define it as true
+  if (typeof(item.onSwitch) === "undefined") {
+    browser.storage.local.set({onSwitch: true});
   }
-});
+  // since onSwitch is a promise, it may still be undefined
+  console.log("switch is " + item.onSwitch);
+  if (typeof(item.onSwitch) === "undefined" || item.onSwitch) {
+    console.log("switch is " + item.onSwitch);
+    promiseArr.then(function(item) {
+      if (item.bannedWordsArr.length > 0) {
+        deepSearch(startPoint, item.bannedWordsArr);
+      }
+    });
+  }
+  
+})
+
+
 // let test = ["avenger", "endgame", "captain america", "ironman", "avengers", "captainamerica", "iron man"];
 // deepSearch(startPoint, test);
 // testingThis();
