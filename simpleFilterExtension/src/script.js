@@ -16,8 +16,15 @@ function deepSearch(node, arr) {
     deepSearch(node.nextSibling,arr);
   }
 }
-let test = ["avenger", "endgame", "captain america", "ironman", "avengers", "captainamerica", "iron man"];
-deepSearch(startPoint, test);
+
+let promiseArr = browser.storage.local.get('bannedWordsArr');
+promiseArr.then(function(item) {
+  if (item.bannedWordsArr.length > 0) {
+    deepSearch(startPoint, item.bannedWordsArr);
+  }
+});
+// let test = ["avenger", "endgame", "captain america", "ironman", "avengers", "captainamerica", "iron man"];
+// deepSearch(startPoint, test);
 // testingThis();
 // function onError(error) {
 //   console.log(error);
