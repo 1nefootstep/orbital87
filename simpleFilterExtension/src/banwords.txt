@@ -1,4 +1,0 @@
-events
-feedback
-support
-create
