@@ -8,7 +8,7 @@
         </ul>
         <h3>Current Features</h3>
         <ul>
-            <li>Blocking spoilers: search the webpage for keywords then block the words with ***</li>
+            <li>Blocking spoilers: search the webpage for keywords then block the element that encloses the text by blurring it</li>
             <li>Allows user to specify and add keywords</li>
             <li>Keywords can be cleared</li>
             <li>Keywords are persistent</li>
@@ -23,6 +23,7 @@
             <li>Hiding images</li>
             <li>Check for modifications of DOM and filter DOM again if changes detected</li>
             <li>Creating two buckets of keywords (high priority and low priority) and hide the censored words with different effects depending on the priority (red for high/ yellow for low).</li>
+            <li>Improve design of popup</li>
         </ul>
         <h3>Video Demo</h3>
         <a href="https://www.youtube.com/watch?v=ABHz1v017_w&feature=youtu.be">Youtube link</a>
