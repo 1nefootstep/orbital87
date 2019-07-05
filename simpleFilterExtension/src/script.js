@@ -5,8 +5,14 @@ function deepSearch(node, arr) {
       for (let word of arr) {
         let text = node.textContent;
         // alert(word);
-        let regex = new RegExp(word,"ig");
-        node.textContent = text.replace(regex, "***");;
+        if (text.includes(word)) {
+          console.log(node);
+          console.log(node.parentElement);
+          node.parentElement.classList.add("spoiler");
+          break;
+        }
+        // let regex = new RegExp(word,"ig");
+        // node.textContent = text.replace(regex, "***");;
       }
     }
   if (node.firstChild) {
@@ -17,6 +23,8 @@ function deepSearch(node, arr) {
   }
 }
 
+
+// check if the switch is on/off before filtering
 let promiseArr = browser.storage.local.get('bannedWordsArr');
 let promiseOnSwitch = browser.storage.local.get('onSwitch');
 promiseOnSwitch.then(function(item) {
@@ -34,26 +42,6 @@ promiseOnSwitch.then(function(item) {
       }
     });
   }
-  
-})
-
-
-// let test = ["avenger", "endgame", "captain america", "ironman", "avengers", "captainamerica", "iron man"];
-// deepSearch(startPoint, test);
-// testingThis();
-// function onError(error) {
-//   console.log(error);
-// }
-
-// function onSuccess(text = "") {
-//   console.log("OK" + text);
-// }
-
-// let bannedWordsArr = browser.storage.local.get("listOfBanWords")
-//   .then(() => onSuccess(" got list of banned words"), onError);
-
-// document.addEventListener("DOMContentLoaded", function() {
-//   // deepSearch(startPoint, bannedWordsArr.arr);
-//   deepSearch(startPoint, test);
-//   alert("test");
-// });
+}).then(() => {
+  spoilerAlert('spoiler, .spoiler', {max: 10, partial: 4});
+});
