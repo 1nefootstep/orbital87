@@ -18,6 +18,7 @@
         </ul>
         <h3>Things to work on</h3>
         <ul>
+            <li>Implement a smarter way of blocking paragraph that isn't naive (will ignore tags like em, b, i etc; or perhaps only whitelist certain tags like p, div, span?)</li>
             <li>Instead of just clearing all the keywords, allow individual deletion of keywords</li>
             <li>Hiding images</li>
             <li>Check for modifications of DOM and filter DOM again if changes detected</li>
