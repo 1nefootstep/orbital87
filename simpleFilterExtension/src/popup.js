@@ -10,6 +10,9 @@ function moveTextToList() {
     // console.log("start of movetexttolist");
     let text = document.getElementById("wordsAffected");
     let words = text.value.split(',');
+    for (let i = 0; i < words.length; i++) {
+        words[i] = words[i].trim();
+    }
     populateList(words);
     text.value = '';
     let bannedWordsArr = browser.storage.local.get('bannedWordsArr');
