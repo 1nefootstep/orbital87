@@ -1,7 +1,22 @@
 function populateList(arr) {
     for (let word of arr) {
         let li = document.createElement('li');
-        li.innerHTML = word;
+        li.innerHTML = word + "<span class='close'>&times;</span>";
+        li.lastChild.addEventListener("click", function() {
+            let deletedWord = this.previousSibling.textContent;
+            let bannedWordsArr = browser.storage.local.get('bannedWordsArr');
+            bannedWordsArr.then(function(obj) {
+                let newArr = obj.bannedWordsArr;
+                for (let i = 0; i < newArr.length; i++) { 
+                    if (newArr[i] === deletedWord) {
+                        newArr.splice(i, 1); 
+                    }
+                }
+                browser.storage.local.set({bannedWordsArr: newArr})
+                    .then(()=>console.log("successfully saved"), (error)=>console.log(error));
+            });
+            this.parentElement.remove();
+        });
         banWords.appendChild(li);
     }
 }
