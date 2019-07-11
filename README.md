@@ -25,6 +25,7 @@
             <li>Creating two buckets of keywords (high priority and low priority) and hide the censored words with different effects depending on the priority (red for high/ yellow for low).</li>
             <li>Improve design of popup</li>
             <li>Create an option to whitelist/blacklist sites (or only apply script on certain websites)</li>
+            <li>Work on cross browser compatability (minimally to work on both chrome/firefox)</li>
         </ul>
         <h3>Known bugs</h3>
         <ul>
