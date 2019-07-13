@@ -17,8 +17,8 @@ function deepSearch(node, arr) {
           if (singleParent.parentElement && singleParent.tagName!= 'BODY')
             doubleParent = node.parentElement.parentElement;
             let images = doubleParent.getElementsByTagName('IMG');
-            for(let image in images) {
-              doubleParent.classList.add("spoiler");
+            for(let image of images) {
+              image.classList.add("spoiler");
             }
         }
         console.log("temp");
