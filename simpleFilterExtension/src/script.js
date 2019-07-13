@@ -11,6 +11,26 @@ function deepSearch(node, arr) {
           console.log(text.search(regex));
           // console.log(node.E);
           // console.log(node.parentElement);
+          let singleParent = node.parentElement;
+        let doubleParent;
+        if (singleParent) {
+          if (singleParent.parentElement && singleParent.tagName!= 'BODY')
+            doubleParent = node.parentElement.parentElement;
+            let images = doubleParent.getElementsByTagName('IMG');
+            for(let image in images) {
+              doubleParent.classList.add("spoiler");
+            }
+        }
+        console.log("temp");
+        console.log(node);
+        console.log(singleParent);
+        console.log("Duality");
+        console.log(doubleParent);
+        console.log("cen");
+        node.parentElement.classList.add("spoiler");
+       /*  if (childOfDoubleParent != "body") {
+          childOfDoubleParent.classList.add("spoiler");
+        } */
           node.parentElement.classList.add("spoiler");
           break;
         }
