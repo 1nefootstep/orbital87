@@ -16,6 +16,7 @@ function filterImage(node) {
       let images = doubleParent.getElementsByTagName('IMG');
       for(let image of images) {
         image.classList.add("dumb87-spoiler");
+        modifiedSpoilerAlert(image);
       }
     }
   }
@@ -73,9 +74,10 @@ function searchAndFilter(node, arr) {
       let text = node.textContent;
       // -1 is returned when search fails to find keyword
       if (text.search(regex) >= 0) {
+        let surroundingElement = findSurrTag(node);
+        surroundingElement.classList.add("dumb87-spoiler");
+        modifiedSpoilerAlert(surroundingElement);
         filterImage(node);
-        let surroundingTag = findSurrTag(node);
-        surroundingTag.classList.add("dumb87-spoiler");
         break;
       }
     }
@@ -111,30 +113,32 @@ let filter = function(startPoint) {
         }
       });
     }
-  }).then(() => {
-    spoilerAlert('dumb87-spoiler, .dumb87-spoiler', {max: 10, partial: 4});
   });
+  // .then(() => {
+  //   spoilerAlert('dumb87-spoiler, .dumb87-spoiler', {max: 10, partial: 4});
+  // })
 }
 // document.addEventListener("load", function() {
 //   console.log("start2");
 // });
 
 filter(rootTop);
-// const observer = new MutationObserver((mutations) => {
-//   console.log("mutation detected");
-//   mutations.forEach((mutation) => {
-//     if (mutation.addedNodes && mutation.addedNodes.length > 0) {
-//       // This DOM change was new nodes being added. Run our substitution
-//       // algorithm on each newly added node.
-//       for (let i = 0; i < mutation.addedNodes.length; i++) {
-//         const newNode = mutation.addedNodes[i];
-//         // console.log("mutation2");
-//         filter(newNode);
-//       }
-//     }
-//   });
-// });
-// observer.observe(document.body, {
-//   childList: true,
-//   subtree: true
-// });
+const observer = new MutationObserver((mutations) => {
+  console.log("mutation detected");
+  mutations.forEach((mutation) => {
+    if (mutation.addedNodes && mutation.addedNodes.length > 0) {
+      // This DOM change was new nodes being added. Run our substitution
+      // algorithm on each newly added node.
+      console.log("mutation detected inside");
+      for (let i = 0; i < mutation.addedNodes.length; i++) {
+        const newNode = mutation.addedNodes[i];
+        console.log("mutation detected inside inside");
+        filter(newNode);
+      }
+    }
+  });
+});
+observer.observe(document.body, {
+  childList: true,
+  subtree: true
+});
