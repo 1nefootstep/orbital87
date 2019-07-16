@@ -20,14 +20,16 @@
         <h3>Things to work on</h3>
         <ul>
             <li>Check for modifications of DOM and filter DOM again if changes detected</li>
-            <li>Creating two buckets of keywords (high priority and low priority) and hide the censored words with different effects depending on the priority (red for high/ yellow for low).</li>
             <li>Improve design of popup</li>
             <li>Create an option to whitelist/blacklist sites (or only apply script on certain websites)</li>
             <li>Work on cross browser compatability (minimally to work on both chrome/firefox)</li>
         </ul>
         <h3>Known bugs</h3>
         <ul>
-            <li>websites like reddit my tag their stuff with the class spoiler and that might trigger our blurring script to blur it incorrectly.</li>
+            <li>websites like reddit might tag their div with the class "spoiler" and that might trigger our blurring script to blur it incorrectly as we first mark spoiler related elements with the class "spoiler".</li>
+                <ul>
+                    <li>Fixed by changing the class name we mark with to dumb87-spoiler. Admittedly, this only temporarily resolves the problem as the same issue can occur if another website decides to have the same class name. Might come up with a less naive solution if time permits.</li>
+                </ul>
         </ul>
         <h3>Video Demo</h3>
         <a href="https://www.youtube.com/watch?v=ABHz1v017_w&feature=youtu.be">Youtube link</a>

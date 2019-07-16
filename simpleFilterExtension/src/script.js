@@ -15,7 +15,7 @@ function filterImage(node) {
       doubleParent = node.parentElement.parentElement;
       let images = doubleParent.getElementsByTagName('IMG');
       for(let image of images) {
-        image.classList.add("spoiler");
+        image.classList.add("dumb87-spoiler");
       }
     }
   }
@@ -75,7 +75,7 @@ function searchAndFilter(node, arr) {
       if (text.search(regex) >= 0) {
         filterImage(node);
         let surroundingTag = findSurrTag(node);
-        surroundingTag.classList.add("spoiler");
+        surroundingTag.classList.add("dumb87-spoiler");
         break;
       }
     }
@@ -112,7 +112,7 @@ let filter = function(startPoint) {
       });
     }
   }).then(() => {
-    spoilerAlert('spoiler, .spoiler', {max: 10, partial: 4});
+    spoilerAlert('dumb87-spoiler, .dumb87-spoiler', {max: 10, partial: 4});
   });
 }
 // document.addEventListener("load", function() {
