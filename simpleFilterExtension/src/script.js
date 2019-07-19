@@ -15,8 +15,6 @@ function filterImage(node) {
         if (!image.classList.contains("dumb87-spoiler")) {
           image.classList.add("dumb87-spoiler");
           modifiedSpoilerAlert(image);
-        } else {
-          console.log("already filtered");
         }
       }
     }
@@ -80,8 +78,6 @@ function searchAndFilter(node, arr) {
           surroundingElement.classList.add("dumb87-spoiler");
           modifiedSpoilerAlert(surroundingElement);
           filterImage(node);
-        } else {
-          console.log("already filtered");
         }
         break;
       }

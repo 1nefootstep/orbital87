@@ -58,16 +58,21 @@ ul {
     list-style-type: none;
 }
 
+ul li {
+    display: block;
+    position: relative;
+}
+
 ul li:hover {
     background-color: #eee;
 }
 
 .close {
     cursor: pointer;
-    position: relative;
+    position: absolute;
     top: 50%;
-    right: 0%;
-    padding: 12px 16px;
+    right: 3%;
+    padding: 0px 0px;
     transform: translate(0%, -50%);
-  }
+}
   
