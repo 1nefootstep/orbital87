@@ -10,13 +10,21 @@
             <span class="slider round"></span>
             </label>
         </p> 
+        <div class='tab'>
+            <button id="tablink1" class="textbox" class='tablink'>Textbox</button>
+            <button id="tablink2" class="bannedWordsList" class='tablink'>List</button>
+        </div>
+        <div id='textbox' class='tabcontent'> 
         <p>
             <textarea rows="4" cols="40" id="wordsAffected" placeholder= "type spoiler-related keywords here (delimited by ','s) for example: endgame,spiderman,captain america,ironman"></textarea>
         </p>
         <button id="block">Block</button>
+    </div>
+    <div id='bannedWordsList' class='tabcontent'>
         <span style="margin: 0; text-decoration: underline;">Blocked Words</span>
         <ul id="banWords"></ul>
         <button id="clear">Clear</button>
+    </div>
     </body>
     <script src="popup.js"></script>
 </html>

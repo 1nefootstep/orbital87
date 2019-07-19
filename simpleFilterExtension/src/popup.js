@@ -46,6 +46,16 @@ function moveTextToList() {
             .then(()=>console.log("successfully saved"), (error)=>console.log(error));
     });
 }
+function reappear(name,classNameArr){
+    //make sure everything disappear first then make the 1 you want appear
+    for(let i = 0 ; i < classNameArr.length;i++){
+        let elementTemp = document.getElementById(classNameArr[i]);
+        elementTemp.classList.add('tabcontent');  
+    } 
+    let element =  document.getElementById(name);
+    let elementName = element.className;
+    element.classList.remove(elementName);
+}
 function clearBannedWords() {
     let ls = document.getElementById("banWords");
     ls.innerHTML = "<ul id = 'banWords'></ul>";
@@ -109,6 +119,11 @@ document.addEventListener("DOMContentLoaded", function() {
     let blockBtn = document.getElementById("block");
     let clearBtn = document.getElementById("clear");
     let onSwitch = document.getElementById("onSwitch");
+    let tab1 = document.getElementById("tablink1");
+    let tab2 = document.getElementById("tablink2");
+    let classNameArr = [tab1.className, tab2.className];
+    tab1.addEventListener('click',()=>reappear(tab1.className,classNameArr));
+    tab2.addEventListener('click',()=>reappear(tab2.className,classNameArr));
     blockBtn.addEventListener('click', moveTextToList);
     clearBtn.addEventListener('click', clearBannedWords);
     onSwitch.addEventListener('click', toggleSwitch);
