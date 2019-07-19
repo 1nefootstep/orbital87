@@ -23,66 +23,7 @@
     })();
   }
 
-  // window.spoilerAlert = function(selector, opts) {
-  //   var elements = document.querySelectorAll(selector);
-  //   var defaults = {
-  //     max: 4,
-  //     partial: 2,
-  //     hintText: 'Click to reveal completely'
-  //   };
-
-  //   opts = Object.assign(defaults, opts || {});
-
-  //   var maxBlur = opts.max;
-  //   var partialBlur = opts.partial;
-  //   var hintText = opts.hintText;
-
-  //   var processElement = function(index) {
-  //     var el = elements[index];
-  //     el['data-spoiler-state'] = 'shrouded';
-
-  //     el.style.webkitTransition = '-webkit-filter 250ms';
-  //     el.style.transition = 'filter 250ms';
-
-  //     var applyBlur = function(radius) {
-  //       el.style.filter = 'blur('+radius+'px)';
-  //       el.style.webkitFilter = 'blur('+radius+'px)';
-  //     }
-
-  //     applyBlur(maxBlur);
-
-  //     el.addEventListener('mouseover', function(e) {
-  //       el.style.pointer = 'Cursor';
-  //       el.title = hintText;
-  //       if (el['data-spoiler-state'] === 'shrouded') applyBlur(partialBlur);
-  //     })
-
-  //     el.addEventListener('mouseout', function(e) {
-  //       el.title = hintText;
-  //       if (el['data-spoiler-state'] === 'shrouded') applyBlur(maxBlur);
-  //     })
-
-  //     el.addEventListener('click', function(e) {
-  //       switch(el['data-spoiler-state']) {
-  //         case 'shrouded':
-  //           el['data-spoiler-state'] = 'revealed';
-  //           el.title = '';
-  //           el.style.cursor = 'auto';
-  //           applyBlur(0);
-  //           break;
-  //         default:
-  //           el['data-spoiler-state'] = 'shrouded';
-  //           el.title = hintText;
-  //           el.style.cursor = 'pointer';
-  //           applyBlur(maxBlur);
-  //       }
-  //     })
-  //   }
-
-  //   for (var i = 0; i !== elements.length; i++) processElement(i);
-  // }
   window.modifiedSpoilerAlert = function(element, opts) {
-    // var elements = document.querySelectorAll(selector);
     var defaults = {
       max: 4,
       partial: 2,
@@ -96,7 +37,6 @@
     var hintText = opts.hintText;
 
     var processElement = function(el) {
-      // var el = elements[index];
       el['data-spoiler-state'] = 'shrouded';
 
       el.style.webkitTransition = '-webkit-filter 250ms';
@@ -136,8 +76,6 @@
         }
       })
     }
-
-    // for (var i = 0; i !== elements.length; i++) processElement;
     processElement(element);
   }
 })();

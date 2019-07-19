@@ -12,7 +12,7 @@ function filterImage(node) {
       doubleParent = node.parentElement.parentElement;
       let images = doubleParent.getElementsByTagName('IMG');
       for(let image of images) {
-        if (!image.classList.includes("dumb87-spoiler")) {
+        if (!image.classList.contains("dumb87-spoiler")) {
           image.classList.add("dumb87-spoiler");
           modifiedSpoilerAlert(image);
         } else {
@@ -76,8 +76,7 @@ function searchAndFilter(node, arr) {
       // -1 is returned when search fails to find keyword
       if (text.search(regex) >= 0) {
         let surroundingElement = findSurrTag(node);
-        console.log(surroundingElement.classList);
-        if (!surroundingElement.classList.includes("dumb87-spoiler")) {
+        if (!surroundingElement.classList.contains("dumb87-spoiler")) {
           surroundingElement.classList.add("dumb87-spoiler");
           modifiedSpoilerAlert(surroundingElement);
           filterImage(node);
