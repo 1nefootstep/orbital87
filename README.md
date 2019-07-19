@@ -16,10 +16,10 @@
             <li>block entire paragraphs instead of just words. This specifically targets</li>
             <li>hides spoilers by using blur effect</li>
             <li>Hiding images</li>
+            <li>Check for modifications of DOM and filter DOM again if changes detected</li>
         </ul>
         <h3>Things to work on</h3>
         <ul>
-            <li>Check for modifications of DOM and filter DOM again if changes detected</li>
             <li>Improve design of popup</li>
             <li>Create an option to whitelist/blacklist sites (or only apply script on certain websites)</li>
             <li>Work on cross browser compatability (minimally to work on both chrome/firefox)</li>
