@@ -21,6 +21,7 @@
         <h3>Things to work on</h3>
         <ul>
             <li>Improve design of popup</li>
+            <li>Create an option on how to delimit words (either comma, space, etc) Ppl might want to copy a paragraph of text and blocking the entire chunk of it.</li>
             <li>Create an option to whitelist/blacklist sites (or only apply script on certain websites)</li>
             <li>Work on cross browser compatability (minimally to work on both chrome/firefox)</li>
         </ul>
