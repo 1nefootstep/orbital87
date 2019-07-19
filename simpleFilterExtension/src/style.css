@@ -75,7 +75,7 @@ ul li:hover {
     padding: 0px 0px;
     transform: translate(0%, -50%);
 }
-.tab {
+/* .tab {
     overflow: hidden;
     cursor: pointer;
     border: 1px solid #ccc;
@@ -100,4 +100,11 @@ ul li:hover {
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
+} */
+.display{
+    display:inline-block;
+}
+.background{
+    height:200px;
+    width:900px;
 }
