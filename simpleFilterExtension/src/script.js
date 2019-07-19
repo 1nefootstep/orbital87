@@ -1,6 +1,3 @@
-// starting point for searching for keywords
-let rootTop = document.documentElement;
-
 /*
  * Tries to access two parents above and if possible, look for images among the children
  * and marks them for blurring.
@@ -15,8 +12,12 @@ function filterImage(node) {
       doubleParent = node.parentElement.parentElement;
       let images = doubleParent.getElementsByTagName('IMG');
       for(let image of images) {
-        image.classList.add("dumb87-spoiler");
-        modifiedSpoilerAlert(image);
+        if (!image.classList.includes("dumb87-spoiler")) {
+          image.classList.add("dumb87-spoiler");
+          modifiedSpoilerAlert(image);
+        } else {
+          console.log("already filtered");
+        }
       }
     }
   }
@@ -75,9 +76,14 @@ function searchAndFilter(node, arr) {
       // -1 is returned when search fails to find keyword
       if (text.search(regex) >= 0) {
         let surroundingElement = findSurrTag(node);
-        surroundingElement.classList.add("dumb87-spoiler");
-        modifiedSpoilerAlert(surroundingElement);
-        filterImage(node);
+        console.log(surroundingElement.classList);
+        if (!surroundingElement.classList.includes("dumb87-spoiler")) {
+          surroundingElement.classList.add("dumb87-spoiler");
+          modifiedSpoilerAlert(surroundingElement);
+          filterImage(node);
+        } else {
+          console.log("already filtered");
+        }
         break;
       }
     }
@@ -96,7 +102,7 @@ function searchAndFilter(node, arr) {
 
 
 // check if the switch is on/off before filtering
-let filter = function(startPoint) {
+function filter(startPoint) {
   let promiseArr = browser.storage.local.get('bannedWordsArr');
   let promiseOnSwitch = browser.storage.local.get('onSwitch');
   promiseOnSwitch.then(function(item) {
@@ -114,26 +120,20 @@ let filter = function(startPoint) {
       });
     }
   });
-  // .then(() => {
-  //   spoilerAlert('dumb87-spoiler, .dumb87-spoiler', {max: 10, partial: 4});
-  // })
 }
-// document.addEventListener("load", function() {
-//   console.log("start2");
-// });
 
-filter(rootTop);
+// below are the codes that will be executed.
+// starts filtering from the very top of DOM.
+filter(document.documentElement);
+// creates an observer that watches for changes.
 const observer = new MutationObserver((mutations) => {
-  console.log("mutation detected");
   mutations.forEach((mutation) => {
     if (mutation.addedNodes && mutation.addedNodes.length > 0) {
-      // This DOM change was new nodes being added. Run our substitution
-      // algorithm on each newly added node.
-      console.log("mutation detected inside");
+      // The DOM change detected will be "added nodes"
+      // Filter will be run on these newly added nodes to check
+      // if they contain censored keywords.
       for (let i = 0; i < mutation.addedNodes.length; i++) {
-        const newNode = mutation.addedNodes[i];
-        console.log("mutation detected inside inside");
-        filter(newNode);
+        filter(mutation.addedNodes[i]);
       }
     }
   });
