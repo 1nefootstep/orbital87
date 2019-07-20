@@ -25,15 +25,6 @@
             <li>Create an option to whitelist/blacklist sites (or only apply script on certain websites)</li>
             <li>Work on cross browser compatability (minimally to work on both chrome/firefox)</li>
         </ul>
-        <div style="text-decoration:line-through">
-        <h3>Known bugs</h3>
-        <ul>
-            <li>websites like reddit might tag their div with the class "spoiler" and that might trigger our blurring script to blur it incorrectly as we first mark spoiler related elements with the class "spoiler".</li>
-                <ul>
-                    <li>Fixed by changing the class name we mark with to dumb87-spoiler. Admittedly, this only temporarily resolves the problem as the same issue can occur if another website decides to have the same class name. Might come up with a less naive solution if time permits.</li>
-                </ul>
-        </ul>
-        </div>
         <h3>Video Demo</h3>
         <a href="https://www.youtube.com/watch?v=ABHz1v017_w&feature=youtu.be">Youtube link</a>
     </body>
