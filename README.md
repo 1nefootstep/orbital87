@@ -25,7 +25,7 @@
             <li>Create an option to whitelist/blacklist sites (or only apply script on certain websites)</li>
             <li>Work on cross browser compatability (minimally to work on both chrome/firefox)</li>
         </ul>
-        <div style="text-decoration: line-through;">
+        <div style="text-decoration:line-through">
         <h3>Known bugs</h3>
         <ul>
             <li>websites like reddit might tag their div with the class "spoiler" and that might trigger our blurring script to blur it incorrectly as we first mark spoiler related elements with the class "spoiler".</li>
