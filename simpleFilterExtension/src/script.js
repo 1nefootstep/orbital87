@@ -1,3 +1,5 @@
+var API = chrome || browser;
+
 /*
  * Tries to access two parents above and if possible, look for images among the children
  * and marks them for blurring.
@@ -92,23 +94,19 @@ function searchAndFilter(node, arr) {
   }
 }
 
-
-
-
-
 // check if the switch is on/off before filtering
 function filter(startPoint) {
-  let promiseArr = browser.storage.local.get('bannedWordsArr');
-  let promiseOnSwitch = browser.storage.local.get('onSwitch');
-  promiseOnSwitch.then(function(item) {
+  API.storage.local.get('onSwitch', function(obj) {
     // if onSwitch has yet to be defined, we define it as true
-    if (typeof(item.onSwitch) === "undefined") {
-      browser.storage.local.set({onSwitch: true});
-    }
-    // since onSwitch is a promise, it may still be undefined
-    console.log("switch is " + item.onSwitch);
-    if (typeof(item.onSwitch) === "undefined" || item.onSwitch) {
-      promiseArr.then(function(item) {
+    if (typeof(obj.onSwitch) === "undefined") {
+      API.storage.local.set({onSwitch: true});
+      API.storage.local.get('bannedWordsArr', function(item) {
+        if (item.bannedWordsArr.length > 0) {
+          searchAndFilter(startPoint, item.bannedWordsArr);
+        }
+      });
+    } else if (obj.onSwitch) {
+      API.storage.local.get('bannedWordsArr', function(item) {
         if (item.bannedWordsArr.length > 0) {
           searchAndFilter(startPoint, item.bannedWordsArr);
         }

@@ -1,22 +1,23 @@
+var API = chrome || browser;
+  
 function populateList(arr) {
     for (let word of arr) {
         let li = document.createElement('li');
         li.innerHTML = word + "<span class='close'>&times;</span>";
         li.lastChild.addEventListener("click", function() {
             let deletedWord = this.previousSibling.textContent;
-            let bannedWordsArr = browser.storage.local.get('bannedWordsArr');
-            bannedWordsArr.then(function(obj) {
+            API.storage.local.get('bannedWordsArr', function(obj) {
                 let newArr = obj.bannedWordsArr;
                 for (let i = 0; i < newArr.length; i++) { 
                     if (newArr[i] === deletedWord) {
                         newArr.splice(i, 1); 
                     }
                 }
-                browser.storage.local.set({bannedWordsArr: newArr})
-                    .then(()=>console.log("successfully saved"), (error)=>console.log(error));
+                API.storage.local.set({bannedWordsArr: newArr});
             });
             this.parentElement.remove();
         });
+        let banWords = document.getElementById("banWords");
         banWords.appendChild(li);
     }
 }
@@ -30,9 +31,7 @@ function moveTextToList() {
     }
     populateList(words);
     text.value = '';
-    let bannedWordsArr = browser.storage.local.get('bannedWordsArr');
-    bannedWordsArr.then(function(obj) {
-        let newArr;
+    let bannedWordsArr = API.storage.local.get('bannedWordsArr', function(obj) {
         if (obj.bannedWordsArr && obj.bannedWordsArr.length > 0) {
             console.log("length > 0");
             console.log(obj.bannedWordsArr);
@@ -42,8 +41,7 @@ function moveTextToList() {
             newArr = words;
         }
         console.log(newArr);
-        browser.storage.local.set({bannedWordsArr: newArr})
-            .then(()=>console.log("successfully saved"), (error)=>console.log(error));
+        API.storage.local.set({bannedWordsArr: newArr})
     });
 }
 /* function reappear(name,classNameArr){
@@ -59,7 +57,7 @@ function moveTextToList() {
 function clearBannedWords() {
     let ls = document.getElementById("banWords");
     ls.innerHTML = "<ul id = 'banWords'></ul>";
-    browser.storage.local.set({bannedWordsArr: []});
+    API.storage.local.set({bannedWordsArr: []});
 }
 
 function onError(error) {
@@ -76,29 +74,24 @@ function initialiseList() {
     // Window.localStorage in extension code. Firefox will clear data stored by extensions using the 
     // localStorage API in various scenarios where users clear their browsing history and data for 
     // privacy reasons, while data saved using the storage.local API will be correctly persisted in 
-    // these scenarios. => use browser.storage.local
+    // these scenarios. => use API.storage.local
     //  */
     console.log("initialise list");
-    let bannedWordsArr = browser.storage.local.get('bannedWordsArr');
-    bannedWordsArr.then((obj) => {
-        console.log(obj);
+    let bannedWordsArr = API.storage.local.get('bannedWordsArr', function(obj) {
         if (obj.bannedWordsArr) {
             if (obj.bannedWordsArr.length > 0) {
-                console.log(obj.bannedWordsArr);
-                console.log("populating list");
                 populateList(obj.bannedWordsArr);
-            }
+            } 
         }
-    }, onError);
+    });
 }
 
 function initialiseButtons() {
-    let switchPromise = browser.storage.local.get("onSwitch");
-    switchPromise.then((item) => {
-        if (typeof(item.onSwitch) === "undefined") {
+    API.storage.local.get("onSwitch", function(obj) {
+        if (typeof(obj.onSwitch) === "undefined") {
             console.log("set true");
-            browser.storage.local.set({onSwitch: true});
-        } else if (item.onSwitch === false) {
+            API.storage.local.set({onSwitch: true});
+        } else if (obj.onSwitch === false) {
             let swHTML = document.getElementById("onSwitch");
             swHTML.innerHTML = "<input type='checkbox'><span class='slider round'></span>";
         }
@@ -106,10 +99,8 @@ function initialiseButtons() {
 }
 
 function toggleSwitch() {
-    let togglePromise = browser.storage.local.get("onSwitch");
-    togglePromise.then((obj) => {
-        console.log(obj.onSwitch);
-        browser.storage.local.set({onSwitch: !obj.onSwitch});
+    let togglePromise = API.storage.local.get("onSwitch", function(obj) {
+        API.storage.local.set({onSwitch: !obj.onSwitch});
     });
 }
 

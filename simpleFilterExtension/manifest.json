@@ -3,7 +3,7 @@
     "name": "Simple Filter Extension",
     "version": "1",
     "icons": {
-        "48": "icons/48.jpg"
+        "48": "./icons/48.png"
     },
     "permissions": [
         "storage"
