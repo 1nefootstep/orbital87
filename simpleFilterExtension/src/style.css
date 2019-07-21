@@ -102,9 +102,16 @@ ul li:hover {
     border-top: none;
 } */
 .display{
-    display:inline-block;
+    float: left;
+    width: 50%;
+    padding: 0.1em;
 }
 .background{
-    height:200px;
-    width:900px;
+    height:250px;
+    width:51em;
+}
+#bannedWordsList {
+    overflow: auto;
+    height: 170px;
+    width: 300px;
 }
