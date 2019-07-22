@@ -35,6 +35,13 @@ function moveTextToList() {
         if (obj.bannedWordsArr && obj.bannedWordsArr.length > 0) {
             console.log("length > 0");
             console.log(obj.bannedWordsArr);
+            //it breaks below
+            /* for(let i = 0 ; i , words.length ; i++){
+                if(obj.bannedWordsArr.includes(words[i])){
+                    alert(words);
+                    
+                }
+            } */
             newArr = obj.bannedWordsArr.concat(words);
         } else {
             console.log("else");
@@ -44,7 +51,7 @@ function moveTextToList() {
         API.storage.local.set({bannedWordsArr: newArr})
     });
 }
-/* function reappear(name,classNameArr){
+function reappear(name,classNameArr){
     //make sure everything disappear first then make the 1 you want appear
     for(let i = 0 ; i < classNameArr.length;i++){
         let elementTemp = document.getElementById(classNameArr[i]);
@@ -53,7 +60,8 @@ function moveTextToList() {
     let element =  document.getElementById(name);
     let elementName = element.className;
     element.classList.remove(elementName);
-} */
+}
+
 function clearBannedWords() {
     let ls = document.getElementById("banWords");
     ls.innerHTML = "<ul id = 'banWords'></ul>";
@@ -107,15 +115,24 @@ function toggleSwitch() {
 document.addEventListener("DOMContentLoaded", function() {
     initialiseList();
     initialiseButtons();
-    let blockBtn = document.getElementById("block");
-    let clearBtn = document.getElementById("clear");
-    let onSwitch = document.getElementById("onSwitch");
+    document.getElementById("block").addEventListener('click', moveTextToList);
+    let clearBtn = document.getElementById("clear").addEventListener('click', clearBannedWords);
+    let onSwitch = document.getElementById("onSwitch").addEventListener('click', toggleSwitch);
  /*    let tab1 = document.getElementById("tablink1");
     let tab2 = document.getElementById("tablink2");
     let classNameArr = [tab1.className, tab2.className];
     tab1.addEventListener('click',()=>reappear(tab1.className,classNameArr));
     tab2.addEventListener('click',()=>reappear(tab2.className,classNameArr)); */
+<<<<<<< HEAD
+    document.onkeydown = function (e) {
+        var keyCode = e.keyCode;
+        if(keyCode == 13) {
+            moveTextToList();
+        }
+    };
     blockBtn.addEventListener('click', moveTextToList);
     clearBtn.addEventListener('click', clearBannedWords);
     onSwitch.addEventListener('click', toggleSwitch);
+=======
+>>>>>>> 5234cee59d2e60d4d6e307ee2b34f94ac06a7829
 });

@@ -5,27 +5,33 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 
-<body class = "background">
-    <p>Extension on/off
-        <label id="onSwitch" class="switch">
-            <input type="checkbox" checked>
-            <span class="slider round"></span>
-        </label>
-    </p>
-    <div>
-        <div id='textbox' class="display">
-            <p>
-                <textarea rows="4" cols="30" id="wordsAffected"
-                    placeholder="type spoiler-related keywords here (delimited by ','s) for example: endgame,spiderman,captain america,ironman"></textarea>
-            </p>
-            <button id="block">Block</button>
+<body class="background">
+    <div id="spoilerkeywords">
+        <div style="padding:2%"> Extension on/off
+            <label id="onSwitch" class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+            </label>
         </div>
-        <div class="display">
-            <div id='bannedWordsList' class="display">
-                <span style="text-decoration: underline;text-align:center;">Blocked Words</span>
-                <ul id="banWords"></ul>
+        <div class='tab'>
+            <button id="tablink1" class="active">Spoiler Keywords</button>
+            <button id="tablink2">Advanced Settings</button>
+        </div>
+        <div>
+            <div class="display">
+                <p>
+                    <textarea rows="3" cols="25" id="wordsAffected" placeholder="type spoiler-related keywords here (delimited by ','s) for example: endgame,spiderman"></textarea>
+                </p>
+                <button id="block">Block</button>
             </div>
-            <button id="clear" style="display:inline-block;">Clear</button>
+            <div class="display">
+                <div style="text-decoration: underline;text-align:center;">Blocked Words</div>
+                <div id='bannedWordsList'>
+                    <ul id="banWords"></ul>
+                    </ul>
+                </div>
+                <button id="clear">Clear</button>
+            </div>
         </div>
     </div>
 </body>
