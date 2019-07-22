@@ -68,9 +68,9 @@ function findSurrTag(node) {
  * searchAndFilter looks for text nodes within the DOM and and gives them a class that marks them for
  * filtering
  */
-function searchAndFilter(node, arr) {
+function searchAndFilter(node, set) {
   if (node.nodeType === Node.TEXT_NODE) {
-    for (let word of arr) {
+    for (let word of set) {
       let regex = new RegExp(word,"ig");
       let text = node.textContent;
       // -1 is returned when search fails to find keyword
@@ -87,10 +87,10 @@ function searchAndFilter(node, arr) {
   }
   // check if there are children/siblings and perform searchAndFilter recursively
   if (node.firstChild) {
-    searchAndFilter(node.firstChild,arr);
+    searchAndFilter(node.firstChild,set);
   }
   if (node.nextSibling) {
-    searchAndFilter(node.nextSibling,arr);
+    searchAndFilter(node.nextSibling,set);
   }
 }
 
@@ -100,15 +100,15 @@ function filter(startPoint) {
     // if onSwitch has yet to be defined, we define it as true
     if (typeof(obj.onSwitch) === "undefined") {
       API.storage.local.set({onSwitch: true});
-      API.storage.local.get('bannedWordsArr', function(item) {
-        if (item.bannedWordsArr.length > 0) {
-          searchAndFilter(startPoint, item.bannedWordsArr);
+      API.storage.local.get('bannedWordsSet', function(item) {
+        if (item.bannedWordsSet.size > 0) {
+          searchAndFilter(startPoint, item.bannedWordsSet);
         }
       });
     } else if (obj.onSwitch) {
-      API.storage.local.get('bannedWordsArr', function(item) {
-        if (item.bannedWordsArr.length > 0) {
-          searchAndFilter(startPoint, item.bannedWordsArr);
+      API.storage.local.get('bannedWordsSet', function(item) {
+        if (item.bannedWordsSet.size > 0) {
+          searchAndFilter(startPoint, item.bannedWordsSet);
         }
       });
     }

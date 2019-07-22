@@ -1,26 +1,28 @@
 var API = chrome || browser;
-  
-function populateList(arr) {
-    for (let word of arr) {
-        let li = document.createElement('li');
-        li.innerHTML = word + "<span class='close'>&times;</span>";
-        li.lastChild.addEventListener("click", function() {
-            let deletedWord = this.previousSibling.textContent;
-            API.storage.local.get('bannedWordsArr', function(obj) {
-                let newArr = obj.bannedWordsArr;
-                for (let i = 0; i < newArr.length; i++) { 
-                    if (newArr[i] === deletedWord) {
-                        newArr.splice(i, 1); 
-                    }
-                }
-                API.storage.local.set({bannedWordsArr: newArr});
-            });
-            this.parentElement.remove();
+
+function addSingleToList(word) {
+    let li = document.createElement('li');
+    // adding a button that can delete a keyword individually
+    li.innerHTML = word + "<span class='close'>&times;</span>";
+    li.lastChild.addEventListener("click", function() {
+        let deletedWord = this.previousSibling.textContent;
+        API.storage.local.get('bannedWordsSet', function(obj) {
+            let newSet = obj.bannedWordsSet;
+            newSet.delete(deletedWord);
+            API.storage.local.set({bannedWordsSet: newSet});
         });
-        let banWords = document.getElementById("banWords");
-        banWords.appendChild(li);
+        this.parentElement.remove();
+    });
+    document.getElementById("banWords").appendChild(li);
+}
+
+function populateList(set) {
+    for(let word of set) {
+        addSingleToList(word);
     }
 }
+
+
 
 function moveTextToList() {
     // console.log("start of movetexttolist");
@@ -29,35 +31,23 @@ function moveTextToList() {
     for (let i = 0; i < words.length; i++) {
         words[i] = words[i].trim();
     }
-    populateList(words);
     text.value = '';
-    let bannedWordsArr = API.storage.local.get('bannedWordsArr', function(obj) {
-        if (obj.bannedWordsArr && obj.bannedWordsArr.length > 0) {
-            console.log("length > 0");
-            console.log(obj.bannedWordsArr);
-            //it breaks below
-            /* for(let i = 0 ; i , words.length ; i++){
-                if(obj.bannedWordsArr.includes(words[i])){
-                    alert(words);
-                    
+    let bannedWordsSet = API.storage.local.get('bannedWordsSet', function(obj) {
+        let newSet = obj.bannedWordsSet;
+        if (newSet && newSet.size > 0) {
+            for (let word of words) {
+                if (!newSet.has(word)) {
+                    newSet.add(word);
+                    addSingleToList(word);
                 }
-            } */
-            for(let i = 0 ; i < obj.bannedWordsArr.length ; i++){
-                alert(obj.bannedWordsArr[i] + i + "test");
             }
-            let newSet = new Set();
-            for(let i = 0 ; i < newArr.length ; i++){
-                alert(newArr[i] + i);
-                newSet.add(newArr[i]);
-            }
-            newArr.from(newSet);
-            newArr = obj.bannedWordsArr.concat(words);
         } else {
             console.log("else");
-            newArr = words;
+            newSet = new Set(words);
+            populateList(words);
         }
-        console.log(newArr);
-        API.storage.local.set({bannedWordsArr: newArr})
+        console.log(newSet);
+        API.storage.local.set({bannedWordsSet: newSet})
     });
 }
 /* function reappear(name,classNameArr){
@@ -73,7 +63,7 @@ function moveTextToList() {
 function clearBannedWords() {
     let ls = document.getElementById("banWords");
     ls.innerHTML = "<ul id = 'banWords'></ul>";
-    API.storage.local.set({bannedWordsArr: []});
+    API.storage.local.set({bannedWordsSet: new Set()});
 }
 
 function onError(error) {
@@ -93,10 +83,10 @@ function initialiseList() {
     // these scenarios. => use API.storage.local
     //  */
     console.log("initialise list");
-    let bannedWordsArr = API.storage.local.get('bannedWordsArr', function(obj) {
-        if (obj.bannedWordsArr) {
-            if (obj.bannedWordsArr.length > 0) {
-                populateList(obj.bannedWordsArr);
+    let bannedWordsSet = API.storage.local.get('bannedWordsSet', function(obj) {
+        if (obj.bannedWordsSet) {
+            if (obj.bannedWordsSet.size > 0) {
+                populateList(obj.bannedWordsSet);
             } 
         }
     });
