@@ -123,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let classNameArr = [tab1.className, tab2.className];
     tab1.addEventListener('click',()=>reappear(tab1.className,classNameArr));
     tab2.addEventListener('click',()=>reappear(tab2.className,classNameArr)); */
-<<<<<<< HEAD
     document.onkeydown = function (e) {
         var keyCode = e.keyCode;
         if(keyCode == 13) {
@@ -133,6 +132,5 @@ document.addEventListener("DOMContentLoaded", function() {
     blockBtn.addEventListener('click', moveTextToList);
     clearBtn.addEventListener('click', clearBannedWords);
     onSwitch.addEventListener('click', toggleSwitch);
-=======
->>>>>>> 5234cee59d2e60d4d6e307ee2b34f94ac06a7829
+
 });
