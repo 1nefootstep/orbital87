@@ -17,14 +17,14 @@
             <button id="tablink1" class="active">Spoiler Keywords</button>
             <button id="tablink2">Advanced Settings</button>
         </div>
-        <div>
-            <div class="display">
+        <!-- <div> -->
+            <div class="display" style="float:left;">
                 <p>
-                    <textarea rows="3" cols="25" id="wordsAffected" placeholder="type spoiler-related keywords here (delimited by ','s) for example: endgame,spiderman"></textarea>
+                    <textarea rows="3" cols="24" id="wordsAffected" placeholder="type spoiler-related keywords here (delimited by ','s) for example: endgame,spiderman"></textarea>
                 </p>
                 <button id="block">Block</button>
             </div>
-            <div class="display">
+            <div class="display" style="float:right;">
                 <div style="text-decoration: underline;text-align:center;">Blocked Words</div>
                 <div id='bannedWordsList'>
                     <ul id="banWords"></ul>
@@ -32,7 +32,7 @@
                 </div>
                 <button id="clear">Clear</button>
             </div>
-        </div>
+        <!-- </div> -->
     </div>
 </body>
 <script src="popup.js"></script>

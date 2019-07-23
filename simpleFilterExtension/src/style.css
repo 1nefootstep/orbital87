@@ -104,20 +104,13 @@ ul li:hover {
     border-top: none;
 }
 .display{
-    float:left;
-    width: 45%;
-    padding: 0 0 0 4%;
-    border-left: 1px solid black;
-    border-right: 1px solid red;
-}
-.display:first-of-type{
-    border-left: none;
-    border-right: none;
+    /* float:left; */
+    width: 46%;
+    padding: 0 2% 0 2%;
 }
 .background{
     height:auto;
-    width:50em;
-    /* width:auto; */
+    width:42em;
     padding:0;
     margin:0;
 }
@@ -130,4 +123,9 @@ ul li:hover {
 
 #bannedWordsList li {
     font-size: 1.2em;
+}
+
+div {
+    padding: 0;
+    margin: 0;
 }
