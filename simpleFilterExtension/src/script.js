@@ -106,14 +106,9 @@ function filter(startPoint) {
         onSwitch: true,
         imgSwitch: true
       }
-      API.storage.local.set({ondumb87SpoilerSettings: settings}, function() {
+      API.storage.local.set({dumb87SpoilerSettings: settings}, function() {
         filter(startPoint);
       });
-      // API.storage.local.get('bannedWordsSet', function(item) {
-      //   if (item.bannedWordsSet.size > 0) {
-      //     searchAndFilter(startPoint, item.bannedWordsSet, settings);
-      //   }
-      // });
     } 
     if (obj.dumb87SpoilerSettings.onSwitch) {
       API.storage.local.get('bannedWordsSet', function(item) {
