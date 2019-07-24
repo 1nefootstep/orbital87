@@ -50,13 +50,17 @@ function moveTextToList() {
         API.storage.local.set({bannedWordsSet: newSet})
     });
 }
-function reappear(tab,allTabElements){
+function reappear(tab,allTabElements,activeLink,links){
     console.log("reappear called");
     //make sure everything disappear first then make the 1 you want appear
-    for(let t of allTabElements){
+    for (let t of allTabElements){
         // the class tabcontent makes the element, display:none
         t.classList.add('tabcontent');
-    } 
+    }
+    for (let l of links) {
+        l.classList.remove("active");
+    }
+    activeLink.classList.add("active");
     // let element =  document.getElementById(name);
     // let elementName = element.className;
     // // this removes all classes from the element. Is this desired?
@@ -139,12 +143,21 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("clear").addEventListener('click', clearBannedWords);
     document.getElementById("onSwitch").addEventListener('click', ()=>toggleSwitch('extension'));
     document.getElementById("imgSwitch").addEventListener('click', ()=>toggleSwitch('img'));
-    // keep track of the possible tab contents and give the tab buttons functionality
-    let tab1 = document.getElementById("spoiler_keywords");
-    let tab2 = document.getElementById("advanced_settings");
-    let tabs = [tab1, tab2];
-    document.getElementById("tablink1").addEventListener('click',()=>reappear(tab1,tabs));
-    document.getElementById("tablink2").addEventListener('click',()=>reappear(tab2,tabs));
+    // keep track of the possible tab contents and give the tab buttons functionality    
+    let tabcontent1 = document.getElementById("spoiler_keywords");
+    let tabcontent2 = document.getElementById("advanced_settings");
+    let tabcontents = [
+        tabcontent1, 
+        tabcontent2
+    ];
+    let t1 = document.getElementById("tablink1");
+    let t2 = document.getElementById("tablink2");
+    let tablinks = [
+        t1,
+        t2
+    ];
+    t1.addEventListener('click',() => reappear(tabcontent1,tabcontents,t1,tablinks));
+    t2.addEventListener('click',() => reappear(tabcontent2,tabcontents,t2,tablinks));
     // allows enter key to block the keywords on the text box.
     document.getElementById("wordsAffected").onkeydown = function (e) {
         var keyCode = e.keyCode;
