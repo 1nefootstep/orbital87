@@ -50,16 +50,19 @@ function moveTextToList() {
         API.storage.local.set({bannedWordsSet: newSet})
     });
 }
-/* function reappear(name,classNameArr){
+function reappear(tab,allTabElements){
+    console.log("reappear called");
     //make sure everything disappear first then make the 1 you want appear
-    for(let i = 0 ; i < classNameArr.length;i++){
-        let elementTemp = document.getElementById(classNameArr[i]);
-        elementTemp.classList.add('tabcontent');  
+    for(let t of allTabElements){
+        // the class tabcontent makes the element, display:none
+        t.classList.add('tabcontent');
     } 
-    let element =  document.getElementById(name);
-    let elementName = element.className;
-    element.classList.remove(elementName);
-} */
+    // let element =  document.getElementById(name);
+    // let elementName = element.className;
+    // // this removes all classes from the element. Is this desired?
+    // element.classList.remove('tabcontent');
+    tab.classList.remove('tabcontent');
+}
 function clearBannedWords() {
     let ls = document.getElementById("banWords");
     ls.innerHTML = "<ul id = 'banWords'></ul>";
@@ -113,14 +116,16 @@ function toggleSwitch() {
 document.addEventListener("DOMContentLoaded", function() {
     initialiseList();
     initialiseButtons();
-    let blockBtn = document.getElementById("block");
-    let clearBtn = document.getElementById("clear");
-    let onSwitch = document.getElementById("onSwitch");
- /*    let tab1 = document.getElementById("tablink1");
-    let tab2 = document.getElementById("tablink2");
-    let classNameArr = [tab1.className, tab2.className];
-    tab1.addEventListener('click',()=>reappear(tab1.className,classNameArr));
-    tab2.addEventListener('click',()=>reappear(tab2.className,classNameArr)); */
+    // gives the buttons functionality
+    document.getElementById("block").addEventListener('click', moveTextToList);
+    document.getElementById("clear").addEventListener('click', clearBannedWords);
+    document.getElementById("onSwitch").addEventListener('click', toggleSwitch);
+    // keep track of the possible tab contents and give the tab buttons functionality
+    let tab1 = document.getElementById("spoiler_keywords");
+    let tab2 = document.getElementById("advanced_settings");
+    let tabs = [tab1, tab2];
+    document.getElementById("tablink1").addEventListener('click',()=>reappear(tab1,tabs));
+    document.getElementById("tablink2").addEventListener('click',()=>reappear(tab2,tabs));
     document.getElementById("wordsAffected").onkeydown = function (e) {
         var keyCode = e.keyCode;
         if(keyCode == 13) {
@@ -129,7 +134,4 @@ document.addEventListener("DOMContentLoaded", function() {
             moveTextToList();
         }
     };
-    blockBtn.addEventListener('click', moveTextToList);
-    clearBtn.addEventListener('click', clearBannedWords);
-    onSwitch.addEventListener('click', toggleSwitch);
 });

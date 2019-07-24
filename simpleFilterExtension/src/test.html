@@ -6,7 +6,7 @@
 </head>
 
 <body class="background">
-    <div id="spoilerkeywords">
+    <div>
         <div style="padding:2%"> Extension on/off
             <label id="onSwitch" class="switch">
                 <input type="checkbox" checked>
@@ -17,7 +17,7 @@
             <button id="tablink1" class="active">Spoiler Keywords</button>
             <button id="tablink2">Advanced Settings</button>
         </div>
-        <!-- <div> -->
+        <div id="spoiler_keywords">
             <div class="display" style="float:left;">
                 <p>
                     <textarea rows="3" cols="24" id="wordsAffected" placeholder="type spoiler-related keywords here (delimited by ','s) for example: endgame,spiderman"></textarea>
@@ -32,8 +32,12 @@
                 </div>
                 <button id="clear">Clear</button>
             </div>
-        <!-- </div> -->
+        </div>
+        <div id="advanced_settings" class="tabcontent">
+            <p>testing</p>
+        </div>
     </div>
+    
 </body>
 <script src="popup.js"></script>
 
