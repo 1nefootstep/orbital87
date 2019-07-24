@@ -104,7 +104,8 @@ function filter(startPoint) {
     if (typeof(obj.dumb87SpoilerSettings) === "undefined") {
       settings = {
         onSwitch: true,
-        imgSwitch: true
+        imgSwitch: true,
+        delimiter: ','
       }
       API.storage.local.set({dumb87SpoilerSettings: settings}, function() {
         filter(startPoint);
