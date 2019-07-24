@@ -1,5 +1,6 @@
 var API = chrome || browser;
 
+
 /*
  * Tries to access two parents above and if possible, look for images among the children
  * and marks them for blurring.
@@ -68,7 +69,7 @@ function findSurrTag(node) {
  * searchAndFilter looks for text nodes within the DOM and and gives them a class that marks them for
  * filtering
  */
-function searchAndFilter(node, set) {
+function searchAndFilter(node, set, settings) {
   if (node.nodeType === Node.TEXT_NODE) {
     for (let word of set) {
       let regex = new RegExp(word,"ig");
@@ -79,7 +80,9 @@ function searchAndFilter(node, set) {
         if (!surroundingElement.classList.contains("dumb87-spoiler")) {
           surroundingElement.classList.add("dumb87-spoiler");
           modifiedSpoilerAlert(surroundingElement);
-          filterImage(node);
+          if (settings.imgSwitch) {
+            filterImage(node);
+          }
         }
         break;
       }
@@ -87,28 +90,35 @@ function searchAndFilter(node, set) {
   }
   // check if there are children/siblings and perform searchAndFilter recursively
   if (node.firstChild) {
-    searchAndFilter(node.firstChild,set);
+    searchAndFilter(node.firstChild, set, settings);
   }
   if (node.nextSibling) {
-    searchAndFilter(node.nextSibling,set);
+    searchAndFilter(node.nextSibling, set, settings);
   }
 }
 
 // check if the switch is on/off before filtering
 function filter(startPoint) {
-  API.storage.local.get('onSwitch', function(obj) {
-    // if onSwitch has yet to be defined, we define it as true
-    if (typeof(obj.onSwitch) === "undefined") {
-      API.storage.local.set({onSwitch: true});
-      API.storage.local.get('bannedWordsSet', function(item) {
-        if (item.bannedWordsSet.size > 0) {
-          searchAndFilter(startPoint, item.bannedWordsSet);
-        }
+  API.storage.local.get('dumb87SpoilerSettings', function(obj) {
+    // if settings has yet to be defined, we define it as true
+    if (typeof(obj.dumb87SpoilerSettings) === "undefined") {
+      settings = {
+        onSwitch: true,
+        imgSwitch: true
+      }
+      API.storage.local.set({ondumb87SpoilerSettings: settings}, function() {
+        filter(startPoint);
       });
-    } else if (obj.onSwitch) {
+      // API.storage.local.get('bannedWordsSet', function(item) {
+      //   if (item.bannedWordsSet.size > 0) {
+      //     searchAndFilter(startPoint, item.bannedWordsSet, settings);
+      //   }
+      // });
+    } 
+    if (obj.dumb87SpoilerSettings.onSwitch) {
       API.storage.local.get('bannedWordsSet', function(item) {
         if (item.bannedWordsSet.size > 0) {
-          searchAndFilter(startPoint, item.bannedWordsSet);
+          searchAndFilter(startPoint, item.bannedWordsSet, obj.dumb87SpoilerSettings);
         }
       });
     }
@@ -118,6 +128,7 @@ function filter(startPoint) {
 // below are the codes that will be executed.
 // starts filtering from the very top of DOM.
 filter(document.documentElement);
+
 // creates an observer that watches for changes.
 const observer = new MutationObserver((mutations) => {
   mutations.forEach((mutation) => {
@@ -135,3 +146,4 @@ observer.observe(document.body, {
   childList: true,
   subtree: true
 });
+

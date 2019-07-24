@@ -96,21 +96,39 @@ function initialiseList() {
 }
 
 function initialiseButtons() {
-    API.storage.local.get("onSwitch", function(obj) {
-        if (typeof(obj.onSwitch) === "undefined") {
-            console.log("set true");
-            API.storage.local.set({onSwitch: true});
-        } else if (obj.onSwitch === false) {
-            let swHTML = document.getElementById("onSwitch");
-            swHTML.innerHTML = "<input type='checkbox'><span class='slider round'></span>";
+    API.storage.local.get("dumb87SpoilerSettings", function(obj) {
+        if (typeof(obj.dumb87SpoilerSettings) === "undefined") {
+            let settings = {
+                onSwitch: true,
+                imgSwitch: true
+            }
+            API.storage.local.set({dumb87SpoilerSettings: settings});
+        } else {
+            if (!obj.dumb87SpoilerSettings.onSwitch) {
+                document.getElementById("onSwitch").innerHTML = "<input type='checkbox'><span class='slider round'></span>";
+            }
+            if (!obj.dumb87SpoilerSettings.imgSwitch) {
+                document.getElementById("imgSwitch").innerHTML = "<input type='checkbox'><span class='slider round'></span>";
+            }
         }
     });
 }
 
-function toggleSwitch() {
-    let togglePromise = API.storage.local.get("onSwitch", function(obj) {
-        API.storage.local.set({onSwitch: !obj.onSwitch});
-    });
+function toggleSwitch(switchType) {
+    API.storage.local.get("dumb87SpoilerSettings", function(obj) {
+        let newSettings = obj.dumb87SpoilerSettings;
+        switch (switchType) {
+            case 'extension':
+                newSettings.onSwitch = !newSettings.onSwitch; 
+                break;
+            case 'img':
+                newSettings.imgSwitch = !newSettings.imgSwitch;                
+                break;
+            default:
+                break;
+        }
+        API.storage.local.set({dumb87SpoilerSettings: newSettings});
+    });    
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -119,13 +137,15 @@ document.addEventListener("DOMContentLoaded", function() {
     // gives the buttons functionality
     document.getElementById("block").addEventListener('click', moveTextToList);
     document.getElementById("clear").addEventListener('click', clearBannedWords);
-    document.getElementById("onSwitch").addEventListener('click', toggleSwitch);
+    document.getElementById("onSwitch").addEventListener('click', ()=>toggleSwitch('extension'));
+    document.getElementById("imgSwitch").addEventListener('click', ()=>toggleSwitch('img'));
     // keep track of the possible tab contents and give the tab buttons functionality
     let tab1 = document.getElementById("spoiler_keywords");
     let tab2 = document.getElementById("advanced_settings");
     let tabs = [tab1, tab2];
     document.getElementById("tablink1").addEventListener('click',()=>reappear(tab1,tabs));
     document.getElementById("tablink2").addEventListener('click',()=>reappear(tab2,tabs));
+    // allows enter key to block the keywords on the text box.
     document.getElementById("wordsAffected").onkeydown = function (e) {
         var keyCode = e.keyCode;
         if(keyCode == 13) {

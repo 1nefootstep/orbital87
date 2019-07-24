@@ -61,19 +61,19 @@
       })
 
       el.addEventListener('click', function(e) {
-        switch(el['data-spoiler-state']) {
-          case 'shrouded':
-            el['data-spoiler-state'] = 'revealed';
-            el.title = '';
-            el.style.cursor = 'auto';
-            applyBlur(0);
-            break;
-          default:
-            el['data-spoiler-state'] = 'shrouded';
-            el.title = hintText;
-            el.style.cursor = 'pointer';
-            applyBlur(maxBlur);
-        }
+        // switch(el['data-spoiler-state']) {
+        //   case 'shrouded':
+        el['data-spoiler-state'] = 'revealed';
+        el.title = '';
+        el.style.cursor = 'auto';
+        applyBlur(0);
+            // break;
+        //   default:
+        //     el['data-spoiler-state'] = 'shrouded';
+        //     el.title = hintText;
+        //     el.style.cursor = 'pointer';
+        //     applyBlur(maxBlur);
+        // }
       })
     }
     processElement(element);
