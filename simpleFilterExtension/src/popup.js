@@ -152,6 +152,14 @@ function saveSettings() {
     });
 }
 
+function refreshPlaceholderText() {
+    API.storage.local.get("dumb87SpoilerSettings", function (item) {
+        if (typeof(item.dumb87SpoilerSettings) !== "undefined") {
+            document.getElementById("wordsAffected").getAttributeNode("placeholder").value = "type spoiler-related keywords here (delimited by \'" + item.dumb87SpoilerSettings.delimiter + "\')";
+        }
+    });
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     initialiseList();
     initialiseButtons();
@@ -174,7 +182,10 @@ document.addEventListener("DOMContentLoaded", function () {
         t1,
         t2
     ];
-    t1.addEventListener('click', () => reappear(tabcontent1, tabcontents, t1, tablinks));
+    t1.addEventListener('click', () => {
+        refreshPlaceholderText();
+        reappear(tabcontent1, tabcontents, t1, tablinks);
+    });
     t2.addEventListener('click', () => reappear(tabcontent2, tabcontents, t2, tablinks));
     // allows enter key to block the keywords on the text box.
     document.getElementById("wordsAffected").onkeydown = function (e) {
@@ -185,4 +196,5 @@ document.addEventListener("DOMContentLoaded", function () {
             moveTextToList();
         }
     };
+    refreshPlaceholderText();    
 });
