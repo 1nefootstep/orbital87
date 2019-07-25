@@ -19,18 +19,22 @@
         </div>
         <div id="spoiler_keywords">
             <div class="display" style="float:left;">
-                <p>
-                    <textarea rows="3" cols="24" id="wordsAffected" placeholder="type spoiler-related keywords here (delimited by ',')"></textarea>
-                </p> 
-                <button id="block">Block</button>
-            </div>
-            <div class="display" style="float:right;">
-                <div style="text-decoration: underline;text-align:center;">Blocked Words</div>
-                <div id='bannedWordsList'>
-                    <ul id="banWords"></ul>
-                    </ul>
+                <div class="container">
+                    <textarea rows="3" cols="24" id="wordsAffected"
+                        placeholder="type spoiler-related keywords here (delimited by ',')"></textarea>
+                    <br><br>
+                    <button id="block">Block</button>
                 </div>
-                <button id="clear">Clear</button>
+            </div>
+            <div class="display" style="float:right; border-left:solid 1px black;">
+                <div class="container">
+                    <div style="text-decoration: underline;text-align:center;">Blocked Words</div>
+                    <div id='bannedWordsList'>
+                        <ul id="banWords"></ul>
+                        </ul>
+                    </div>
+                    <button id="clear">Clear</button>
+                </div>
             </div>
         </div>
         <div id="advanced_settings" class="tabcontent">
@@ -48,7 +52,7 @@
             </div>
         </div>
     </div>
-    
+
 </body>
 <script src="popup.js"></script>
 
