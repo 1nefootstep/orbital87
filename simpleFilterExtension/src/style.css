@@ -77,8 +77,8 @@ ul li:hover {
 }
 .tab {
     overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
+    border: 1px none #ccc;
+    background-color: #DCDCDC;
 }
 
 .tab button {
@@ -109,6 +109,7 @@ ul li:hover {
     padding: 0 2% 0 2%;
 }
 .background{
+    background-color:#DCDCDC;
     height:25em;
     width:42em;
     padding:0;
