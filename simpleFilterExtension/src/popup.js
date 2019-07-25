@@ -152,6 +152,19 @@ function saveSettings() {
     });
 }
 
+function defaultSetting(){
+    API.storage.local.get("dumb87SpoilerSettings", function (obj) {
+    console.log("default settings");
+        let settings = {
+            onSwitch: true,
+            imgSwitch: true,
+            delimiter: ','
+        }
+        document.getElementById("delimiter").value =",";
+        document.getElementById("imgSwitch").innerHTML = "<input type='checkbox' checked><span class='slider round'></span>";
+        API.storage.local.set({dumb87SpoilerSettings: settings});
+    });  
+}
 function refreshPlaceholderText() {
     API.storage.local.get("dumb87SpoilerSettings", function (item) {
         if (typeof(item.dumb87SpoilerSettings) !== "undefined") {
@@ -196,5 +209,6 @@ document.addEventListener("DOMContentLoaded", function () {
             moveTextToList();
         }
     };
+    document.getElementById("default").addEventListener('click', defaultSetting); 
     refreshPlaceholderText();    
 });
