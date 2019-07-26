@@ -33,6 +33,7 @@ function moveTextToList() {
         for (let i = 0; i < words.length; i++) {
             words[i] = words[i].trim();
         }
+        words = new Set(words);
         text.value = '';
         let bannedWordsSet = API.storage.local.get('bannedWordsSet', function (obj) {
             let newSet = obj.bannedWordsSet;
