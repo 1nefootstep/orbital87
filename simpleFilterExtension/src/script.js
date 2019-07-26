@@ -113,7 +113,7 @@ function filter(startPoint) {
     } 
     if (obj.dumb87SpoilerSettings.onSwitch) {
       API.storage.local.get('bannedWordsSet', function(item) {
-        if (item.bannedWordsSet.size > 0) {
+        if (item.bannedWordsSet.length > 0) {
           searchAndFilter(startPoint, item.bannedWordsSet, obj.dumb87SpoilerSettings);
         }
       });

@@ -8,9 +8,9 @@ function addSingleToList(word) {
         li.lastChild.addEventListener("click", function () {
             let deletedWord = this.previousSibling.textContent;
             API.storage.local.get('bannedWordsSet', function (obj) {
-                let newSet = obj.bannedWordsSet;
+                let newSet = new Set(obj.bannedWordsSet);
                 newSet.delete(deletedWord);
-                API.storage.local.set({ bannedWordsSet: newSet });
+                API.storage.local.set({ bannedWordsSet: [...newSet] });
             });
             this.parentElement.remove();
         });
@@ -18,8 +18,8 @@ function addSingleToList(word) {
     }
 }
 
-function populateList(set) {
-    for (let word of set) {
+function populateList(arr) {
+    for (let word of arr) {
         addSingleToList(word);
     }
 }
@@ -37,7 +37,9 @@ function moveTextToList() {
         text.value = '';
         let bannedWordsSet = API.storage.local.get('bannedWordsSet', function (obj) {
             let newSet = obj.bannedWordsSet;
-            if (newSet && newSet.size > 0) {
+            console.log(newSet);
+            if (newSet && newSet.length > 0) {
+                newSet = new Set(newSet);
                 for (let word of words) {
                     if (!newSet.has(word)) {
                         newSet.add(word);
@@ -45,11 +47,15 @@ function moveTextToList() {
                     }
                 }
             } else {
-                newSet = new Set(words);
                 populateList(words);
+                newSet = words;
             }
             console.log(newSet);
-            API.storage.local.set({ bannedWordsSet: newSet })
+            API.storage.local.set({ bannedWordsSet: [...newSet] }, function() {
+                API.storage.local.get("bannedWordsSet", function(item) {
+                    console.log(item);
+                });
+            });
         });
     });
 }
@@ -73,7 +79,7 @@ function reappear(tab, allTabElements, activeLink, links) {
 function clearBannedWords() {
     let ls = document.getElementById("banWords");
     ls.innerHTML = "<ul id = 'banWords'></ul>";
-    API.storage.local.set({ bannedWordsSet: new Set() });
+    API.storage.local.set({ bannedWordsSet: [] });
 }
 
 function onError(error) {
@@ -94,8 +100,9 @@ function initialiseList() {
     //  */
     console.log("initialise list");
     API.storage.local.get('bannedWordsSet', function (obj) {
+        console.log(obj.bannedWordsSet);
         if (obj.bannedWordsSet) {
-            if (obj.bannedWordsSet.size > 0) {
+            if (obj.bannedWordsSet.length > 0) {
                 populateList(obj.bannedWordsSet);
             }
         }
