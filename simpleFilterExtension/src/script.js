@@ -31,7 +31,7 @@ function filterImage(node) {
 function findSurrTag(node) {
   let ancestor = node.parentElement;
   let prevElement;
-  let allowedTagName = ["DIV", "SPAN", "P"];
+  let allowedTagName = ["DIV", "P"];
   let unallowedTagName = ["BODY", "HTML"];
   let findAncestor = true;
   while (findAncestor) {
@@ -112,9 +112,9 @@ function filter(startPoint) {
       });
     } 
     if (obj.dumb87SpoilerSettings.onSwitch) {
-      API.storage.local.get('bannedWordsSet', function(item) {
-        if (item.bannedWordsSet.length > 0) {
-          searchAndFilter(startPoint, item.bannedWordsSet, obj.dumb87SpoilerSettings);
+      API.storage.local.get('bannedWordsArr', function(item) {
+        if (item.bannedWordsArr.length > 0) {
+          searchAndFilter(startPoint, item.bannedWordsArr, obj.dumb87SpoilerSettings);
         }
       });
     }

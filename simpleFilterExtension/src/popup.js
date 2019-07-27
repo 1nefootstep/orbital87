@@ -7,10 +7,10 @@ function addSingleToList(word) {
         li.innerHTML = word + "<span class='close'>&times;</span>";
         li.lastChild.addEventListener("click", function () {
             let deletedWord = this.previousSibling.textContent;
-            API.storage.local.get('bannedWordsSet', function (obj) {
-                let newSet = new Set(obj.bannedWordsSet);
+            API.storage.local.get('bannedWordsArr', function (obj) {
+                let newSet = new Set(obj.bannedWordsArr);
                 newSet.delete(deletedWord);
-                API.storage.local.set({ bannedWordsSet: [...newSet] });
+                API.storage.local.set({ bannedWordsArr: [...newSet] });
             });
             this.parentElement.remove();
         });
@@ -24,8 +24,6 @@ function populateList(arr) {
     }
 }
 
-
-
 function moveTextToList() {
     let text = document.getElementById("wordsAffected");
     API.storage.local.get("dumb87SpoilerSettings", function (item) {
@@ -35,11 +33,10 @@ function moveTextToList() {
         }
         words = new Set(words);
         text.value = '';
-        let bannedWordsSet = API.storage.local.get('bannedWordsSet', function (obj) {
-            let newSet = obj.bannedWordsSet;
-            console.log(newSet);
-            if (newSet && newSet.length > 0) {
-                newSet = new Set(newSet);
+        API.storage.local.get('bannedWordsArr', function (obj) {
+            let newSet;
+            if (obj.bannedWordsArr && obj.bannedWordsArr.length > 0) {
+                newSet = new Set(obj.bannedWordsArr); // to ensure no duplicates
                 for (let word of words) {
                     if (!newSet.has(word)) {
                         newSet.add(word);
@@ -50,15 +47,11 @@ function moveTextToList() {
                 populateList(words);
                 newSet = words;
             }
-            console.log(newSet);
-            API.storage.local.set({ bannedWordsSet: [...newSet] }, function() {
-                API.storage.local.get("bannedWordsSet", function(item) {
-                    console.log(item);
-                });
-            });
+            API.storage.local.set({ bannedWordsArr: [...newSet] }); //using spread operator to spread the set into array
         });
     });
 }
+
 function reappear(tab, allTabElements, activeLink, links) {
     console.log("reappear called");
     //make sure everything disappear first then make the 1 you want appear
@@ -70,24 +63,13 @@ function reappear(tab, allTabElements, activeLink, links) {
         l.classList.remove("active");
     }
     activeLink.classList.add("active");
-    // let element =  document.getElementById(name);
-    // let elementName = element.className;
-    // // this removes all classes from the element. Is this desired?
-    // element.classList.remove('tabcontent');
     tab.classList.remove('tabcontent');
 }
+
 function clearBannedWords() {
     let ls = document.getElementById("banWords");
     ls.innerHTML = "<ul id = 'banWords'></ul>";
-    API.storage.local.set({ bannedWordsSet: [] });
-}
-
-function onError(error) {
-    console.log(error);
-}
-
-function onSuccess(text = "") {
-    console.log("OK" + text);
+    API.storage.local.set({ bannedWordsArr: [] });
 }
 
 function initialiseList() {
@@ -98,12 +80,10 @@ function initialiseList() {
     // privacy reasons, while data saved using the storage.local API will be correctly persisted in 
     // these scenarios. => use API.storage.local
     //  */
-    console.log("initialise list");
-    API.storage.local.get('bannedWordsSet', function (obj) {
-        console.log(obj.bannedWordsSet);
-        if (obj.bannedWordsSet) {
-            if (obj.bannedWordsSet.length > 0) {
-                populateList(obj.bannedWordsSet);
+    API.storage.local.get('bannedWordsArr', function (obj) {
+        if (obj.bannedWordsArr) {
+            if (obj.bannedWordsArr.length > 0) {
+                populateList(obj.bannedWordsArr);
             }
         }
     });
@@ -151,18 +131,15 @@ function toggleSwitch(switchType) {
 }
 
 function saveSettings() {
-    console.log("saving settings");
     API.storage.local.get("dumb87SpoilerSettings", function (obj) {
         let newSettings = obj.dumb87SpoilerSettings;
         newSettings.delimiter = document.getElementById("delimiter").value;
-        console.log(newSettings);
         API.storage.local.set({dumb87SpoilerSettings: newSettings});
     });
 }
 
 function defaultSetting(){
     API.storage.local.get("dumb87SpoilerSettings", function (obj) {
-    console.log("default settings");
         let settings = {
             onSwitch: true,
             imgSwitch: true,
