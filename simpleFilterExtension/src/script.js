@@ -143,3 +143,48 @@ observer.observe(document.body, {
   subtree: true
 });
 
+function searchAndRemoveFilter(node) {
+  // console.log(node);
+  if (typeof(node.classList) !== "undefined" && node.classList.contains("dumb87-spoiler")) {
+    console.log(node);
+    node.style.filter = 'blur(0px)';
+    node.style.webkitFilter = 'blur(0px)';
+    node.classList.remove("dumb87-spoiler");
+    node.parentNode.replaceChild(node.cloneNode(true), node);
+  }
+  // check if there are children/siblings and perform searchAndFilter recursively
+  if (node.firstChild) {
+    searchAndRemoveFilter(node.firstChild);
+  }
+  if (node.nextSibling) {
+    searchAndRemoveFilter(node.nextSibling);
+  }
+}
+
+API.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  console.log("received message");
+  switch (request.execute) {
+      case "searchAndFilter":
+          console.log("searching and filtering");    
+          filter(document.documentElement);
+          sendResponse({});
+          break;
+      case "removeFilter":
+          console.log("removing filter");
+          searchAndRemoveFilter(document.documentElement);
+          sendResponse({});
+          break;
+      default:
+          // helps debug when request directive doesn't match
+          console.log("unmatched request.");
+          console.log(request);
+      }
+  }
+);
+// function handleMessage(request, sender, sendResponse) {
+//   console.log("Message from the content script: " +
+//     request.greeting);
+//   sendResponse({response: "Response from background script"});
+// }
+
+// browser.runtime.onMessage.addListener(handleMessage);

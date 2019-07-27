@@ -119,6 +119,33 @@ function toggleSwitch(switchType) {
         switch (switchType) {
             case 'extension':
                 newSettings.onSwitch = !newSettings.onSwitch;
+                if (newSettings.onSwitch) {
+                    browser.tabs.query({
+                        currentWindow: true,
+                        active: true
+                    }).then(function(tabArray) {
+                        console.log("sending msg 1");
+                        for (let tab of tabArray) {
+                            browser.tabs.sendMessage(
+                                tab.id,
+                                {execute: "searchAndFilter"}                        
+                            );
+                        }
+                    });
+                } else {
+                    browser.tabs.query({
+                        currentWindow: true,
+                        active: true
+                    }).then(function(tabArray) {
+                        console.log("sending msg 2");
+                        for (let tab of tabArray) {
+                            browser.tabs.sendMessage(
+                                tab.id,
+                                {execute: "removeFilter"}                        
+                            );
+                        }
+                    });
+                }
                 break;
             case 'img':
                 newSettings.imgSwitch = !newSettings.imgSwitch;
