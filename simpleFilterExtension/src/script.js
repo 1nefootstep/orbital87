@@ -143,23 +143,23 @@ observer.observe(document.body, {
   subtree: true
 });
 
-function searchAndRemoveFilter(node) {
-  // console.log(node);
-  if (typeof(node.classList) !== "undefined" && node.classList.contains("dumb87-spoiler")) {
-    console.log(node);
-    node.style.filter = 'blur(0px)';
-    node.style.webkitFilter = 'blur(0px)';
-    node.classList.remove("dumb87-spoiler");
-    node.parentNode.replaceChild(node.cloneNode(true), node);
-  }
-  // check if there are children/siblings and perform searchAndFilter recursively
-  if (node.firstChild) {
-    searchAndRemoveFilter(node.firstChild);
-  }
-  if (node.nextSibling) {
-    searchAndRemoveFilter(node.nextSibling);
-  }
-}
+// function searchAndRemoveFilter(node) {
+//   // console.log(node);
+//   if (typeof(node.classList) !== "undefined" && node.classList.contains("dumb87-spoiler")) {
+//     console.log(node);
+//     node.style.filter = 'blur(0px)';
+//     node.style.webkitFilter = 'blur(0px)';
+//     node.classList.remove("dumb87-spoiler");
+//     node.parentNode.replaceChild(node.cloneNode(true), node);
+//   }
+//   // check if there are children/siblings and perform searchAndFilter recursively
+//   if (node.firstChild) {
+//     searchAndRemoveFilter(node.firstChild);
+//   }
+//   if (node.nextSibling) {
+//     searchAndRemoveFilter(node.nextSibling);
+//   }
+// }
 
 API.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   console.log("received message");
@@ -171,7 +171,16 @@ API.runtime.onMessage.addListener(function(request, sender, sendResponse) {
           break;
       case "removeFilter":
           console.log("removing filter");
-          searchAndRemoveFilter(document.documentElement);
+          let spoilers = document.getElementsByClassName("dumb87-spoiler");
+          while (spoilers.length > 0) {
+            for (let el of spoilers) {
+              el.classList.remove("dumb87-spoiler");
+              el.style.filter = 'blur(0px)';
+              el.style.webkitFilter = 'blur(0px)';
+              el.parentNode.replaceChild(el.cloneNode(true), el);
+            }
+            spoilers = document.getElementsByClassName("dumb87-spoiler");
+          }
           sendResponse({});
           break;
       default:
