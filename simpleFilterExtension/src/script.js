@@ -1,6 +1,3 @@
-var API = chrome || browser;
-
-
 /*
  * Tries to access two parents above and if possible, look for images among the children
  * and marks them for blurring.
@@ -99,7 +96,7 @@ function searchAndFilter(node, set, settings) {
 
 // check if the switch is on/off before filtering
 function filter(startPoint) {
-  API.storage.local.get('dumb87SpoilerSettings', function(obj) {
+  chrome.storage.local.get('dumb87SpoilerSettings', function(obj) {
     // if settings has yet to be defined, we define it as true
     if (typeof(obj.dumb87SpoilerSettings) === "undefined") {
       settings = {
@@ -107,12 +104,12 @@ function filter(startPoint) {
         imgSwitch: true,
         delimiter: ','
       }
-      API.storage.local.set({dumb87SpoilerSettings: settings}, function() {
+      chrome.storage.local.set({dumb87SpoilerSettings: settings}, function() {
         filter(startPoint);
       });
     } 
     if (obj.dumb87SpoilerSettings.onSwitch) {
-      API.storage.local.get('bannedWordsArr', function(item) {
+      chrome.storage.local.get('bannedWordsArr', function(item) {
         if (item.bannedWordsArr.length > 0) {
           searchAndFilter(startPoint, item.bannedWordsArr, obj.dumb87SpoilerSettings);
         }
@@ -161,7 +158,7 @@ observer.observe(document.body, {
 //   }
 // }
 
-API.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   console.log("received message");
   switch (request.execute) {
       case "searchAndFilter":

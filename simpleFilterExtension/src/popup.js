@@ -1,5 +1,3 @@
-var API = chrome || browser;
-
 function addSingleToList(word) {
     if (word !== "") {
         let li = document.createElement('li');
@@ -7,10 +5,10 @@ function addSingleToList(word) {
         li.innerHTML = word + "<span class='close'>&times;</span>";
         li.lastChild.addEventListener("click", function () {
             let deletedWord = this.previousSibling.textContent;
-            API.storage.local.get('bannedWordsArr', function (obj) {
+            chrome.storage.local.get('bannedWordsArr', function (obj) {
                 let newSet = new Set(obj.bannedWordsArr);
                 newSet.delete(deletedWord);
-                API.storage.local.set({ bannedWordsArr: [...newSet] });
+                chrome.storage.local.set({ bannedWordsArr: [...newSet] });
             });
             this.parentElement.remove();
         });
@@ -26,14 +24,14 @@ function populateList(arr) {
 
 function moveTextToList() {
     let text = document.getElementById("wordsAffected");
-    API.storage.local.get("dumb87SpoilerSettings", function (item) {
+    chrome.storage.local.get("dumb87SpoilerSettings", function (item) {
         let words = text.value.split(item.dumb87SpoilerSettings.delimiter);
         for (let i = 0; i < words.length; i++) {
             words[i] = words[i].trim();
         }
         words = new Set(words);
         text.value = '';
-        API.storage.local.get('bannedWordsArr', function (obj) {
+        chrome.storage.local.get('bannedWordsArr', function (obj) {
             let newSet;
             if (obj.bannedWordsArr && obj.bannedWordsArr.length > 0) {
                 newSet = new Set(obj.bannedWordsArr); // to ensure no duplicates
@@ -47,7 +45,7 @@ function moveTextToList() {
                 populateList(words);
                 newSet = words;
             }
-            API.storage.local.set({ bannedWordsArr: [...newSet] }); //using spread operator to spread the set into array
+            chrome.storage.local.set({ bannedWordsArr: [...newSet] }); //using spread operator to spread the set into array
         });
     });
 }
@@ -69,18 +67,18 @@ function reappear(tab, allTabElements, activeLink, links) {
 function clearBannedWords() {
     let ls = document.getElementById("banWords");
     ls.innerHTML = "<ul id = 'banWords'></ul>";
-    API.storage.local.set({ bannedWordsArr: [] });
+    chrome.storage.local.set({ bannedWordsArr: [] });
 }
 
 function initialiseList() {
     // /* 
-    // Although this API is similar to Window.localStorage it is recommended that you don't use
+    // Although this chrome is similar to Window.localStorage it is recommended that you don't use
     // Window.localStorage in extension code. Firefox will clear data stored by extensions using the 
-    // localStorage API in various scenarios where users clear their browsing history and data for 
-    // privacy reasons, while data saved using the storage.local API will be correctly persisted in 
-    // these scenarios. => use API.storage.local
+    // localStorage chrome in various scenarios where users clear their browsing history and data for 
+    // privacy reasons, while data saved using the storage.local chrome will be correctly persisted in 
+    // these scenarios. => use chrome.storage.local
     //  */
-    API.storage.local.get('bannedWordsArr', function (obj) {
+    chrome.storage.local.get('bannedWordsArr', function (obj) {
         if (obj.bannedWordsArr) {
             if (obj.bannedWordsArr.length > 0) {
                 populateList(obj.bannedWordsArr);
@@ -90,7 +88,7 @@ function initialiseList() {
 }
 
 function initialiseButtons() {
-    API.storage.local.get("dumb87SpoilerSettings", function (obj) {
+    chrome.storage.local.get("dumb87SpoilerSettings", function (obj) {
         console.log(obj);
         if (typeof (obj.dumb87SpoilerSettings) === "undefined") {
             let settings = {
@@ -98,7 +96,7 @@ function initialiseButtons() {
                 imgSwitch: true,
                 delimiter: ','
             }
-            API.storage.local.set({ dumb87SpoilerSettings: settings });
+            chrome.storage.local.set({ dumb87SpoilerSettings: settings });
         } else {
             if (!obj.dumb87SpoilerSettings.onSwitch) {
                 document.getElementById("onSwitch").innerHTML = "<input type='checkbox'><span class='slider round'></span>";
@@ -114,32 +112,32 @@ function initialiseButtons() {
 }
 
 function toggleSwitch(switchType) {
-    API.storage.local.get("dumb87SpoilerSettings", function (obj) {
+    chrome.storage.local.get("dumb87SpoilerSettings", function (obj) {
         let newSettings = obj.dumb87SpoilerSettings;
         switch (switchType) {
             case 'extension':
                 newSettings.onSwitch = !newSettings.onSwitch;
                 if (newSettings.onSwitch) {
-                    browser.tabs.query({
+                    chrome.tabs.query({
                         currentWindow: true,
                         active: true
-                    }).then(function(tabArray) {
+                    }, function(tabArray) {
                         console.log("sending msg 1");
                         for (let tab of tabArray) {
-                            browser.tabs.sendMessage(
+                            chrome.tabs.sendMessage(
                                 tab.id,
                                 {execute: "searchAndFilter"}                        
                             );
                         }
                     });
                 } else {
-                    browser.tabs.query({
+                    chrome.tabs.query({
                         currentWindow: true,
                         active: true
-                    }).then(function(tabArray) {
+                    }, function(tabArray) {
                         console.log("sending msg 2");
                         for (let tab of tabArray) {
-                            browser.tabs.sendMessage(
+                            chrome.tabs.sendMessage(
                                 tab.id,
                                 {execute: "removeFilter"}                        
                             );
@@ -153,20 +151,20 @@ function toggleSwitch(switchType) {
             default:
                 break;
         }
-        API.storage.local.set({ dumb87SpoilerSettings: newSettings });
+        chrome.storage.local.set({ dumb87SpoilerSettings: newSettings });
     });
 }
 
 function saveSettings() {
-    API.storage.local.get("dumb87SpoilerSettings", function (obj) {
+    chrome.storage.local.get("dumb87SpoilerSettings", function (obj) {
         let newSettings = obj.dumb87SpoilerSettings;
         newSettings.delimiter = document.getElementById("delimiter").value;
-        API.storage.local.set({dumb87SpoilerSettings: newSettings});
+        chrome.storage.local.set({dumb87SpoilerSettings: newSettings});
     });
 }
 
 function defaultSetting(){
-    API.storage.local.get("dumb87SpoilerSettings", function (obj) {
+    chrome.storage.local.get("dumb87SpoilerSettings", function (obj) {
         let settings = {
             onSwitch: true,
             imgSwitch: true,
@@ -174,11 +172,11 @@ function defaultSetting(){
         }
         document.getElementById("delimiter").value =",";
         document.getElementById("imgSwitch").innerHTML = "<input type='checkbox' checked><span class='slider round'></span>";
-        API.storage.local.set({dumb87SpoilerSettings: settings});
+        chrome.storage.local.set({dumb87SpoilerSettings: settings});
     });  
 }
 function refreshPlaceholderText() {
-    API.storage.local.get("dumb87SpoilerSettings", function (item) {
+    chrome.storage.local.get("dumb87SpoilerSettings", function (item) {
         if (typeof(item.dumb87SpoilerSettings) !== "undefined") {
             document.getElementById("wordsAffected").getAttributeNode("placeholder").value = "type spoiler-related keywords here (delimited by \'" + item.dumb87SpoilerSettings.delimiter + "\')";
         }
