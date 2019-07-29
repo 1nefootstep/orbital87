@@ -18,6 +18,6 @@
             <li>Added some additional options for users. Users can define their delimiter and also choose if they wish to block images.</li>
         </ul>
         <h3>Video Demo</h3>
-        <a href="https://www.youtube.com/watch?v=ABHz1v017_w&feature=youtu.be">Youtube link</a>
+        <a href="https://www.youtube.com/watch?v=C7jioJS2q0A&feature=youtu.be">Youtube link</a>
     </body>
 </html>
